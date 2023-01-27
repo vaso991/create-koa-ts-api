@@ -1,14 +1,14 @@
 {
-  "name": "create-koa-api",
+  "name": "create-koa-ts-api",
   "version": "1.0.0",
   "description": "Create koajs typescipt boilerplate",
   "main": "index.js",
   "bin": {
-    "create-koa-api": "index.js"
+    "create-koa-ts-api": "index.js"
   },
   "keywords": [],
   "author": "vaso991 (https://github.com/vaso991/)",
-  "homepage": "https://github.com/vaso991/create-koa-api#readme",
+  "homepage": "https://github.com/vaso991/create-koa-ts-api#readme",
   "license": "MIT",
   "dependencies": {
     "chalk": "^5.2.0",

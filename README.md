@@ -1,4 +1,4 @@
-# create-koa-api
+# create-koa-ts-api
 
 A CLI to automatically clone the [Koa API Starter](https://github.com/vaso991/koa-api-ts-starter).
 
