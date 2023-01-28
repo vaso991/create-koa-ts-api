@@ -2,13 +2,20 @@
 
 const degit = require('degit');
 const colors = require('colors/safe');
-const fs = require('fs')
+const spawn = require('cross-spawn');
+const fs = require('fs');
 
-const appName = process.argv[2]
-const appDirectory = `${process.cwd()}/${appName}`
+const appName = process.argv[2] || '';
+const appDirectory = `${process.cwd()}/${appName}`;
+
+
+if (!appName || appName.match(/[<>:"\/\\|?*\x00-\x1F]/)) {
+    console.error(colors.red(`Error: Missing or Invalid directory name: "${appName}"`));
+    process.exit(-1);
+  }
 
 if (fs.existsSync(appDirectory)) {
-    console.error(colors.red.bgBlack(`Error: Directory "${appDirectory}" already exists.`));
+    console.error(colors.red(`Error: Directory "${appDirectory}" already exists.`));
     process.exit(-1);
 }
 
@@ -19,14 +26,32 @@ const emitter = degit(repository, {
     verbose: true,
 });
 
-console.log(colors.bgBlack.cyan('Cloning...'));
+console.log(colors.cyan('Cloning...'));
+
+function pkgFromUserAgent(userAgent) {
+    if (!userAgent) return undefined;
+    const pkgSpec = userAgent.split(' ')[0];
+    const pkgSpecArr = pkgSpec.split('/');
+    return {
+        name: pkgSpecArr[0],
+        version: pkgSpecArr[1],
+    };
+}
 
 emitter.clone(appDirectory).then(() => {
     console.log('');
-    console.log(colors.bgBlack.cyan('Done!'));
+    console.log(colors.cyan('Installing Dependencies...'));
+    const pkgInfo = pkgFromUserAgent(process.env.npm_config_user_agent);
+    const pkgManager = pkgInfo ? pkgInfo.name : 'npm';
+    const command = `${pkgManager} install`;
+    console.log(command);
+    const { status } = spawn.sync(pkgManager, ['install'], {
+        stdio: 'inherit',
+        cwd: appDirectory,
+    });
+    console.log(colors.cyan('Done!'));
     console.log('');
-    console.log(colors.bgBlack.cyan('To get started:'));
+    console.log(colors.cyan('To get started:'));
     console.log(colors.inverse(`cd ${appName}`));
-    console.log(`${colors.inverse('npm install')} or ${colors.inverse('yarn install')} or ${colors.inverse('pnpm install')}`);
-    console.log(`${colors.inverse('npm run dev')} or ${colors.inverse('yarn run dev')} or ${colors.inverse('pnpm run dev')}`);
+    console.log(colors.inverse(`${pkgManager} run dev`));
 })

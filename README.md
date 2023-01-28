@@ -1,11 +1,18 @@
 # create-koa-ts-api
 
-A CLI to automatically clone the [Koa API Starter](https://github.com/vaso991/koa-api-ts-starter).
+## Create Project:
 
-## Usage
+With NPM:
+```
+npm create koa-ts-api@latest app-name
+```
 
-Command:
+With Yarn:
+```
+yarn create koa-ts-api app-name
+```
 
-```sh
-npx create-koa-api app-directory
+With PNPM:
+```
+pnpm create koa-ts-api app-name
 ```

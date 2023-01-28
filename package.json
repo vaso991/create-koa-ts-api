@@ -1,6 +1,6 @@
 {
   "name": "create-koa-ts-api",
-  "version": "1.0.0",
+  "version": "1.0.6",
   "description": "Create koajs typescipt boilerplate",
   "main": "index.js",
   "bin": {
@@ -13,6 +13,10 @@
   "dependencies": {
     "chalk": "^5.2.0",
     "colors": "^1.4.0",
+    "cross-spawn": "^7.0.3",
     "degit": "^2.8.4"
+  },
+  "devDependencies": {
+    "prettier": "^2.8.3"
   }
 }
