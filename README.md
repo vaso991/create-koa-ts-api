@@ -1,6 +1,6 @@
 # create-koa-ts-api
 
-## Create Project:
+## Create Project from [`koa-api-ts-starter`](https://github.com/vaso991/koa-api-ts-starter):
 
 With NPM:
 ```
