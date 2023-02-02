@@ -12,7 +12,7 @@ const appDirectory = `${process.cwd()}/${appName}`;
 if (!appName || appName.match(/[<>:"\/\\|?*\x00-\x1F]/)) {
     console.error(colors.red(`Error: Missing or Invalid directory name: "${appName}"`));
     process.exit(-1);
-  }
+}
 
 if (fs.existsSync(appDirectory)) {
     console.error(colors.red(`Error: Directory "${appDirectory}" already exists.`));
@@ -49,9 +49,25 @@ emitter.clone(appDirectory).then(() => {
         stdio: 'inherit',
         cwd: appDirectory,
     });
+    if (status !== 0) {
+        return;
+    }
+    // Modify package.json
+    resetPackageJson(appName, appDirectory);
     console.log(colors.cyan('Done!'));
     console.log('');
     console.log(colors.cyan('To get started:'));
     console.log(colors.inverse(`cd ${appName}`));
     console.log(colors.inverse(`${pkgManager} run dev`));
 })
+
+function resetPackageJson(appName, appDirectory) {
+    spawn.sync('npm', ['pkg', 'set', `name=${appName}`], {
+        stdio: 'inherit',
+        cwd: appDirectory,
+    });
+    spawn.sync('npm', ['pkg', 'delete', 'author', 'homepage'], {
+        stdio: 'inherit',
+        cwd: appDirectory,
+    });
+}
