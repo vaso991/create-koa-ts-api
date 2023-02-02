@@ -1,6 +1,6 @@
 {
   "name": "create-koa-ts-api",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Create koajs typescipt boilerplate",
   "main": "index.js",
   "bin": {
