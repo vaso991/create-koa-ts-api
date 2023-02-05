@@ -4,6 +4,7 @@ const degit = require('degit');
 const colors = require('colors/safe');
 const spawn = require('cross-spawn');
 const fs = require('fs');
+const path = require('path');
 
 const appName = process.argv[2] || '';
 const appDirectory = `${process.cwd()}/${appName}`;
@@ -39,6 +40,7 @@ function pkgFromUserAgent(userAgent) {
 }
 
 emitter.clone(appDirectory).then(() => {
+    clearAfterClone(appName, appDirectory);
     console.log('');
     console.log(colors.cyan('Installing Dependencies...'));
     const pkgInfo = pkgFromUserAgent(process.env.npm_config_user_agent);
@@ -70,4 +72,15 @@ function resetPackageJson(appName, appDirectory) {
         stdio: 'inherit',
         cwd: appDirectory,
     });
+}
+
+function clearAfterClone(appName, appDirectory) {
+    const gitDir = path.join(appDirectory, '.git');
+    const githubDir = path.join(appDirectory, '.github');
+    if (fs.existsSync(gitDir)) {
+        fs.rmSync(gitDir, { force: true, recursive: true });
+    }
+    if (fs.existsSync(githubDir)) {
+        fs.rmSync(githubDir, { force: true, recursive: true });
+    }
 }
